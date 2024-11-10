@@ -1,5 +1,7 @@
 *.png
+!image/*/*.png
 *.mp4
+!image/*/*.mp4
 *.pt
 *.pth
 data/
