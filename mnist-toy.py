@@ -13,6 +13,7 @@ from schedulefree.adamw_schedulefree import AdamWScheduleFree
 from torchvision.transforms import transforms as trns
 from torchvision.datasets import MNIST
 from torch.utils.data import DataLoader
+from pytorch_msssim import ssim
 from PIL import Image
 from tqdm import tqdm, trange
 
@@ -70,6 +71,12 @@ def train(epoch, model, optimizer, loss, dataloader, train_with_cond=False):
             x0_pred = xt + t * y
 
             l = loss(y, target) + loss(eps_pred, eps) + loss(x0_pred, x)
+            l = l + 1 - ssim(
+                x0_pred.reshape(-1, 1, 28, 28) * 0.5 + 0.5, 
+                x.reshape(-1, 1, 28, 28) * 0.5 + 0.5, 
+                win_size=7, 
+                data_range=1.0
+            )
             l.backward()
             optimizer.step()
 
@@ -108,7 +115,7 @@ if __name__ == "__main__":
     os.makedirs("./mnist-result", exist_ok=True)
     DEVICE = "cuda"
     CLASSES = 10
-    EPOCHS = 100
+    EPOCHS = 500
     transform = trns.Compose([trns.ToTensor(), trns.Normalize((0.5,), (0.5,))])
     dataset = MNIST("./data", download=True, transform=transform)
     dataloader = DataLoader(
