@@ -29,9 +29,11 @@ The arch is simple:
 
 Image examples:
 
-|                       | Input                                          | Recon                                          |
-| --------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| 0.5M param 1000 Epoch | ![1731282135915](image/README/1731282135915.png) | ![1731282189195](image/README/1731282189195.png) |
+|                       | Cifar Input                                    | Cifar Recon                                    | Input*                           | Recon*                           |
+| --------------------- | ---------------------------------------------- | ---------------------------------------------- | -------------------------------- | -------------------------------- |
+| 0.5M param 1000 Epoch | ![1731282135915](image/README/1731282135915.png) | ![1731282189195](image/README/1731282189195.png) | ![img](image/test/test-ae-inp.png) | ![img](image/test/test-ae-out.png) |
+
+*: The model is trained on 32x32 and we tested it on 1024x1024 and we can see some significant artifact, we may finetune it on larger input such as 128x128 or 256x256 to fix this issue.
 
 ### Conv+AdaLN DM
 
