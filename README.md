@@ -12,7 +12,7 @@ Example result, each frame is generated images from each epoch:
 
 | lr5e-5                                         | lr5e-3                                         | lr2e-3 with 3 loss                             |
 | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| ![](image/README/1731282797760.mp4) | ![](image/README/1731282795154.mp4) | ![](image/README/1731282788308.mp4) |
+| [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282797760.mp4) | [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282795154.mp4) | [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282788308.mp4) |
 
 ## Cifar
 
