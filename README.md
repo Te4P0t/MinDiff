@@ -10,11 +10,9 @@ In this project we demo a minimal implementation of alpha-blended diffusion mode
 
 Example result:
 
-| lr5e-5                                         | lr5e-3                                         | lr2e-3*                                        |
+| lr5e-5                                         | lr2e-3                                         | lr5e-3                                         |
 | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| ![1731283536610](image/README/1731283536610.png) | ![1731283526574](image/README/1731283526574.png) | ![1731283556797](image/README/1731283556797.png) |
-
-*: It use target loss + x0 pred loss + eps pred loss as its loss
+| ![1731283536610](image/README/1731283536610.png) | ![1731283719848](image/README/1731283719848.png) | ![1731283526574](image/README/1731283526574.png) |
 
 ## Cifar
 
