@@ -139,5 +139,5 @@ if __name__ == "__main__":
     stream = ffmpeg.input(
         "./mnist-result/gen-%d.png", pattern_type="sequence", framerate=24
     )
-    stream = ffmpeg.output(stream, "gen.mp4", crf=20, pix_fmt="yuv420p")
+    stream = ffmpeg.output(stream, "mnist-gen.mp4", crf=20, pix_fmt="yuv420p")
     ffmpeg.run(stream, overwrite_output=True, capture_stdout=True, capture_stderr=True)
