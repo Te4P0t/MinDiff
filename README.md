@@ -8,11 +8,13 @@ Try to use as less code as possible, with as simple arch as possible.
 
 In this project we demo a minimal implementation of alpha-blended diffusion model which can train MNIST diffusion model with only 2 linear layer and an embedding layer for class cond.
 
-Example result, each frame is generated images from each epoch:
+Example result:
 
-| lr5e-5                                         | lr5e-3                                         | lr2e-3 with 3 loss                             |
+| lr5e-5                                         | lr5e-3                                         | lr2e-3*                                        |
 | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
-| [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282797760.mp4) | [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282795154.mp4) | [](https://github.com/KohakuBlueleaf/MinDiff/raw/refs/heads/main/image/README/1731282788308.mp4) |
+| ![1731283536610](image/README/1731283536610.png) | ![1731283526574](image/README/1731283526574.png) | ![1731283556797](image/README/1731283556797.png) |
+
+*: It use target loss + x0 pred loss + eps pred loss as its loss
 
 ## Cifar
 
@@ -41,6 +43,6 @@ Since the resolution of latent pixel is low (8x8 for Cifar10, or 16x16 when we t
 
 Image Examples:
 
-| 100epoch                                       | 500epoch                                       | 1000epoch                                      | 5000epoch |
-| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- | --------- |
-| ![1731282575417](image/README/1731282575417.png) | ![1731282588239](image/README/1731282588239.png) | ![1731282595499](image/README/1731282595499.png) |           |
+| 100epoch                                       | 500epoch                                       | 1000epoch                                      | 5000epoch                                      |
+| ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| ![1731282575417](image/README/1731282575417.png) | ![1731282588239](image/README/1731282588239.png) | ![1731282595499](image/README/1731282595499.png) | ![1731283382791](image/README/1731283382791.png) |
