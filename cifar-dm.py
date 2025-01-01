@@ -1,8 +1,3 @@
-"""
-Minimal Example for Iterative alpha Belnding: a Minimalist Deterministic Diffusion Model
-https://arxiv.org/abs/2305.03486
-"""
-
 import os
 import ffmpeg
 import numpy as np
@@ -95,7 +90,7 @@ def train(
                 x = x.to(DEVICE)
             cond = cond.to(DEVICE).long()
 
-            ## alpha Blending Diffusion
+            ## Flow Matching parameterization
             ## x0 ~ Image, x1 ~ N, t ~ [0, 1], xt = x0 + (x1 - x0) * t
             ## Model(xt, t) = x0 - x1
             ## xt-dt = xt + Model(xt, t) * dt

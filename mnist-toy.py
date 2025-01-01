@@ -1,8 +1,3 @@
-"""
-Minimal Example for Iterative alpha Belnding: a Minimalist Deterministic Diffusion Model
-https://arxiv.org/abs/2305.03486
-"""
-
 import os
 import ffmpeg
 import numpy as np
@@ -56,11 +51,12 @@ def train(epoch, model, optimizer, loss, dataloader, train_with_cond=False):
             x = x.view(-1, 28 * 28 * 1).to(DEVICE)
             cond = cond.to(DEVICE).long()
 
-            ## alpha Blending Diffusion
+            ## Flow Matching parameterization
             ## x0 ~ Image, x1 ~ N, t ~ [0, 1], xt = x0 + (x1 - x0) * t
             ## Model(xt, t) = x0 - x1
             ## xt-dt = xt + Model(xt, t) * dt
-            t = torch.rand(x.shape[0], 1).to(DEVICE).float()
+            # logit-norm time schedule
+            t = torch.sigmoid(torch.randn(x.shape[0], 1).to(DEVICE))
             eps = torch.randn_like(x)
             xt = x * (1 - t) + eps * t
             target = x - eps
@@ -71,12 +67,6 @@ def train(epoch, model, optimizer, loss, dataloader, train_with_cond=False):
             x0_pred = xt + t * y
 
             l = loss(y, target) + loss(eps_pred, eps) + loss(x0_pred, x)
-            l = l + 1 - ssim(
-                x0_pred.reshape(-1, 1, 28, 28) * 0.5 + 0.5, 
-                x.reshape(-1, 1, 28, 28) * 0.5 + 0.5, 
-                win_size=7, 
-                data_range=1.0
-            )
             l.backward()
             optimizer.step()
 
@@ -115,7 +105,7 @@ if __name__ == "__main__":
     os.makedirs("./mnist-result", exist_ok=True)
     DEVICE = "cuda"
     CLASSES = 10
-    EPOCHS = 500
+    EPOCHS = 25
     transform = trns.Compose([trns.ToTensor(), trns.Normalize((0.5,), (0.5,))])
     dataset = MNIST("./data", download=True, transform=transform)
     dataloader = DataLoader(
@@ -132,7 +122,7 @@ if __name__ == "__main__":
     ).to(DEVICE)
     print(sum(p.numel() for p in model.parameters()) / 1e6)
     optimizer = AdamWScheduleFree(
-        model.parameters(), 2e-3, weight_decay=0.01, warmup_steps=1000
+        model.parameters(), 1e-2, weight_decay=0.01, warmup_steps=100
     )
     loss = nn.MSELoss()
 
