@@ -114,7 +114,8 @@ def train(
 
             pbar.update(1)
             pbar.set_postfix({"loss": ema_loss})
-    torch.save(model.state_dict(), "cifar-gen.pth")
+    if epoch % 10 == 0:
+        torch.save(model.state_dict(), f"cifar-gen-{epoch}.pth")
 
 
 def test(epoch, model, decoder, gen_with_cond=False):
@@ -171,7 +172,7 @@ if __name__ == "__main__":
 
     encoder = decoder = None
     encoder = Encoder(hidden_dim=(32, 64, 128), latent_dim=8)
-    decoder = Decoder(hidden_dim=(128, 64, 32), latent_dim=8)
+    decoder = Decoder(hidden_dim=(32, 64, 128), latent_dim=8)
     encoder = encoder.requires_grad_(False).eval().to(DEVICE)
     decoder = decoder.requires_grad_(False).eval().to(DEVICE)
     encoder.load_state_dict(torch.load("enc.pth", weights_only=True))
