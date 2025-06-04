@@ -1,8 +1,9 @@
 import os
 import subprocess
+from pathlib import Path
 
-steps = [0, 100, 200, 300, 500, 700, 1000, 2000, 3000, 4999]
-root_dir = './ckpts/cifar-gen-test'
+steps = [0, 100, 200, 300, 500, 700, 1000]
+root_dir = './ckpts/cifar-gen-vpre'
 sample_num = 50000
 
 for step in steps:
@@ -14,7 +15,8 @@ for step in steps:
         subprocess.run(generate_cmd, shell=True)
 
     print(f'Evaluating images for step {step}')
-    save_path = os.path.join(root_dir, f'results/step-{step}.txt')
+    save_path = Path(root_dir) / f'results/step-{step}.txt'
+    save_path.parent.mkdir(parents=True, exist_ok=True)
     if not os.path.exists(save_path):
         evaluate_cmd = f'python evaluate.py --gen-path {gen_path} --cifar-path data --save-path {save_path}'
         subprocess.run(evaluate_cmd, shell=True)

@@ -1,4 +1,5 @@
 import os
+import argparse
 import ffmpeg
 import numpy as np
 import torch
@@ -101,10 +102,10 @@ def train(
 
             optimizer.zero_grad()
             y = model(xt, t, cond if train_with_cond else None)
-            eps_pred = xt - (1 - t) * y
-            x0_pred = xt + t * y
+            # eps_pred = xt - (1 - t) * y
+            # x0_pred = xt + t * y
 
-            l = loss(y, target) + loss(eps_pred, eps) + loss(x0_pred, x)
+            l = loss(y, target)# + loss(eps_pred, eps) + loss(x0_pred, x) + loss(xt, xt)
             l.backward()
             optimizer.step()
             lr_sch.step()
@@ -147,12 +148,20 @@ def test(epoch, model, decoder, gen_with_cond=False):
     pred_x.save(f"./cifar-result/gen-{epoch}.png")
     torch.set_rng_state(rng_state)
 
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--epochs", type=int, default=1000)
+    parser.add_argument("--batch-size", type=int, default=256)
+    parser.add_argument("--workers", type=int, default=16)
+    parser.add_argument("--output-dir", type=str, default="./ckpts/cifar-gen")
+    return parser.parse_args()
+
 
 if __name__ == "__main__":
-    os.makedirs("./cifar-result", exist_ok=True)
+    args = get_args()
     DEVICE = "cuda"
     CLASSES = 10
-    EPOCHS = 5000
+    EPOCHS = args.epochs
     transform = trns.Compose(
         [
             trns.RandomHorizontalFlip(),
@@ -163,9 +172,9 @@ if __name__ == "__main__":
     dataset = CIFAR10("./data", download=True, transform=transform)
     dataloader = DataLoader(
         dataset,
-        batch_size=256,
+        batch_size=args.batch_size,
         shuffle=True,
-        num_workers=16,
+        num_workers=args.workers,
         pin_memory=True,
         persistent_workers=True,
     )
